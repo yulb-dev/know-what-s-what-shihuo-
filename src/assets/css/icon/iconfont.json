@@ -1,0 +1,107 @@
+{
+  "id": "1851982",
+  "name": "icon",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1473448",
+      "name": "相机",
+      "font_class": "xiangji1",
+      "unicode": "e67f",
+      "unicode_decimal": 59007
+    },
+    {
+      "icon_id": "3851376",
+      "name": "通知",
+      "font_class": "tongzhi",
+      "unicode": "e667",
+      "unicode_decimal": 58983
+    },
+    {
+      "icon_id": "5543849",
+      "name": "设置",
+      "font_class": "shezhi",
+      "unicode": "e654",
+      "unicode_decimal": 58964
+    },
+    {
+      "icon_id": "8858837",
+      "name": "收藏",
+      "font_class": "shoucang",
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
+      "icon_id": "10664706",
+      "name": "搜索 search",
+      "font_class": "search",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "14509177",
+      "name": "分享",
+      "font_class": "fenxiang",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "1133733",
+      "name": "购物车",
+      "font_class": "icon4",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "7338648",
+      "name": "购物车",
+      "font_class": "gouwuche1",
+      "unicode": "e6ae",
+      "unicode_decimal": 59054
+    },
+    {
+      "icon_id": "7708012",
+      "name": "我的",
+      "font_class": "wode",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "12900739",
+      "name": "我的",
+      "font_class": "wode1",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "3900909",
+      "name": "分类",
+      "font_class": "tubiaozhizuomoban",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
+      "icon_id": "4841211",
+      "name": "首页",
+      "font_class": "shouye1",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    },
+    {
+      "icon_id": "6500757",
+      "name": "首页",
+      "font_class": "shouye2",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "7550242",
+      "name": "分类",
+      "font_class": "fenlei",
+      "unicode": "e691",
+      "unicode_decimal": 59025
+    }
+  ]
+}
