@@ -54,5 +54,8 @@ export default {
 .wrapper {
   overflow: hidden;
   width: 100%;
+  .content {
+    width: 100%;
+  }
 }
 </style>

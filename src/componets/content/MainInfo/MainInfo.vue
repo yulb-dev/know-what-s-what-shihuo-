@@ -1,20 +1,20 @@
 <template>
   <transition>
-    <div class="info">
+    <div class="info" v-if="swiperItem">
       <top-bar>
         <div slot="left" @click="$emit('shutInfo')">
           <img src="../../../assets/img/icon/head_back.png" width="43px" />
         </div>
-        <div slot="center" v-if="swiperItem">{{swiperItem.item.title}}</div>
+        <div slot="center">{{swiperItem.item.title}}</div>
         <div slot="right">
           <img src="../../../assets/img/icon/head_list.png" width="43px" />
         </div>
       </top-bar>
       <scroll ref="scroll" :hideShowBackTop="true" @goTop="goTop">
-        <img :src="swiperItem&&swiperItem.item.bcg" class="bcg" ref="bcg" />
+        <img :src="swiperItem.item.bcg" class="bcg" ref="bcg" />
         <div class="block">
-          <h2>{{swiperItem&&swiperItem.item.title2}}</h2>
-          <main-goods-list2 :goodsList="swiperItem&&swiperItem.data"></main-goods-list2>
+          <h2>{{swiperItem.item.title2}}</h2>
+          <main-goods-list2 :goodsList="swiperItem.data"></main-goods-list2>
         </div>
       </scroll>
       <back-top @click.native="backlick" v-show="isShow" />
@@ -32,7 +32,7 @@ import BackTop from "../../common/BackTop/BackTop";
 export default {
   data() {
     return {
-      isShow: true,
+      isShow: false,
     };
   },
   methods: {
@@ -50,15 +50,12 @@ export default {
     swiperItem: {
       type: Object,
       default() {
-        return {
-          scroll: null,
-        };
+        return {};
       },
     },
   },
   created() {},
-  mounted() {
-  },
+  mounted() {},
   components: {
     MainGoodsList2,
     TopBar,

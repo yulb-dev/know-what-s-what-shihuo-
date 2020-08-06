@@ -11,5 +11,6 @@ export default {};
   padding-top: 20px;
   margin-bottom: 30px;
   width: 49%;
+  background-color: #fff;
 }
 </style>

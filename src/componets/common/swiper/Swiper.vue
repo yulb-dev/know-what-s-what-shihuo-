@@ -19,6 +19,7 @@ export default {
   data() {
     return {
       swiperItem: null,
+      timer2: null,
     };
   },
   props: {
@@ -49,6 +50,22 @@ export default {
       var w = img_li[0].offsetWidth;
       dots_li[index].style.backgroundColor = "white";
       var timer = null;
+      this.timer2 = timer;
+      function move() {
+        timer = setInterval(function () {
+          index++;
+          img_ul.style.transition = "all 0.3s";
+          img_ul.style.transform = "translateX(" + -index * w + "px)";
+          for (var i = 0; i < dots_li.length; i++) {
+            dots_li[i].style.backgroundColor = "";
+          }
+          if (index == 4) {
+            dots_li[0].style.backgroundColor = "white";
+          } else {
+            dots_li[index].style.backgroundColor = "white";
+          }
+        }, 2500);
+      }
       move();
       img_ul.addEventListener("transitionend", function () {
         if (index == 4) {
@@ -91,8 +108,8 @@ export default {
           } else {
             dots_li[index].style.backgroundColor = "white";
           }
-          img_ul.style.transform = "translateX(" + -index * w + "px)";
           move();
+          img_ul.style.transform = "translateX(" + -index * w + "px)";
         } else if (x1 - x <= -30) {
           index++;
           img_ul.style.transition = "all 0.3s";
@@ -104,33 +121,19 @@ export default {
           } else {
             dots_li[index].style.backgroundColor = "white";
           }
-          img_ul.style.transform = "translateX(" + -index * w + "px)";
           move();
+          img_ul.style.transform = "translateX(" + -index * w + "px)";
         } else {
+          move();
           img_ul.style.transition = "all 0.3s";
           img_ul.style.transform = "translateX(" + -index * w + "px)";
-          move();
         }
       });
-      function move() {
-        timer = setInterval(function () {
-          index++;
-          img_ul.style.transition = "all 0.3s";
-          img_ul.style.transform = "translateX(" + -index * w + "px)";
-          for (var i = 0; i < dots_li.length; i++) {
-            dots_li[i].style.backgroundColor = "";
-          }
-          if (index == 4) {
-            dots_li[0].style.backgroundColor = "white";
-          } else {
-            dots_li[index].style.backgroundColor = "white";
-          }
-        }, 2500);
-      }
     },
   },
-  created() {},
-  mounted() {},
+  deactivated() {
+    console.log("ok");
+  },
 };
 </script>
 <style lang="less">

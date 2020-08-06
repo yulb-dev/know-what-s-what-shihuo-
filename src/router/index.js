@@ -4,6 +4,7 @@ const Home = () => import('../views/home/Home.vue')
 const Category = () => import('../views/category/Category.vue')
 const Shopcart = () => import('../views/shopcart/ShopCart.vue')
 const Profile = () => import('../views/profile/Profile.vue')
+const Detail = () => import('../views/detail/Detail.vue')
 
 //防止重复点击报错
 const originalPush = VueRouter.prototype.replace
@@ -33,6 +34,10 @@ const routes = [
         path: '/profile',
         component: Profile
     },
+    {
+        path: '/detail',
+        component: Detail
+    }
 ]
 
 const router = new VueRouter({

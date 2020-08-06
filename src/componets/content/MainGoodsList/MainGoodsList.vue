@@ -1,9 +1,13 @@
 <template>
   <goods-list>
-    <goods-list-item v-for="(item, index) in goodsList" :key="index">
+    <goods-list-item
+      v-for="(item, index) in goodsList"
+      :key="index"
+      @click.native="goDetail(item._id)"
+    >
       <div class="goods">
         <div class="goodsImig">
-          <img :src="item.img" />
+          <img :src="item.img" @load="imgUpFinish" />
         </div>
         <div class="goodsText">
           <span class="sales">
@@ -33,6 +37,15 @@ export default {
       default() {
         return [];
       },
+    },
+  },
+  methods: {
+    imgUpFinish() {
+      //监听图片加载完成后向父组件发送信号
+      this.$bus.$emit("finishSig");
+    },
+    goDetail(id) {
+      this.$router.push({ path: "/detail", query: { id } });
     },
   },
   components: {

@@ -11,7 +11,7 @@
       </div>
     </main-nav-bar>
     <scroll ref="scroll" :hideShowBackTop="true" @goTop="goTop" @pullingUp="pullingUp">
-      <swiper :imglist="imglist" @click.native="ctoItemDetails" ref="swiper" />
+      <swiper2 :imglist="imglist" @ctoItemDetails="ctoItemDetails" ref="swiper" />
       <main-recomm :recoImgList="recoImgList" />
       <main-activity />
       <main-switch @cswitch="cswitch" />
@@ -31,13 +31,15 @@ import MainGoodsList from "../../componets/content/MainGoodsList/MainGoodsList";
 import MainInfo from "../../componets/content/MainInfo/MainInfo";
 import BackTop from "../../componets/common/BackTop/BackTop";
 import Scroll from "../../componets/common/Scroll/Scroll";
-
+import swiper2 from "../../componets/common/swiper/swiper2";
 import Swiper from "../../componets/common/swiper/Swiper";
 // import Activity from "../../componets/common/activity/activity";
 import { swiperreq, recommreq, getPopularList } from "../../network/homereq";
+import debounce from "../../common/debounce";
 export default {
   data() {
     return {
+      saveY: 0,
       swiperItem: null,
       infoIsShow: false,
       isShow: false,
@@ -54,8 +56,6 @@ export default {
   created() {
     // 尽量在生命周期函数中调用 methods 里的方法
     swiperreq().then((data) => {
-      data.push(data[0]);
-      data.unshift(data[data.length - 2]);
       this.imglist = data;
     });
     recommreq().then((data) => {
@@ -65,19 +65,23 @@ export default {
     this.getnewList();
     this.getfeaturedList();
   },
+  mounted() {
+    //去抖动的封装函数
+    debounce(this.$bus, this.$refs.scroll.scroll);
+  },
   methods: {
     shutInfo() {
       this.infoIsShow = false;
     },
-    ctoItemDetails() {
+    ctoItemDetails(item) {
       // 进入 swiper 详情页
-      this.getswiperItem(this.$refs.swiper.swiperItem.name, (data) => {
+      this.getswiperItem(item.name, (data) => {
         this.swiperItem = {
           data,
-          item: this.$refs.swiper.swiperItem,
+          item: item,
         };
+        this.infoIsShow = true;
       });
-      this.infoIsShow = true;
     },
     pullingUp() {
       // console.log("ok");
@@ -143,6 +147,16 @@ export default {
       });
     },
   },
+  activated() {
+    // console.log(this.saveY);
+    //先刷新 scroll 再获取高度会解决切换后重新回到顶部的问题
+    this.$refs.scroll.scroll.refresh();
+    this.$refs.scroll.scroll.scrollTo(0, this.saveY, 0);
+  },
+  deactivated() {
+    // console.log(this.$refs.scroll.scroll.startY);
+    this.saveY = this.$refs.scroll.scroll.startY;
+  },
   components: {
     MainSwitch,
     MainNavBar,
@@ -153,6 +167,7 @@ export default {
     Swiper,
     Scroll,
     BackTop,
+    swiper2,
     // Activity,
   },
 };

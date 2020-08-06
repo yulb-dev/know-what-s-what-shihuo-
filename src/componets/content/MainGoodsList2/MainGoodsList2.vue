@@ -1,6 +1,10 @@
 <template>
   <goods-list2>
-    <goods-list-item2 v-for="(item, index) in goodsList" :key="index">
+    <goods-list-item2
+      v-for="(item, index) in goodsList"
+      :key="index"
+      @click.native="goDetail(item._id)"
+    >
       <div class="goodsList2">
         <img :src="item.img" width="100%" />
       </div>
@@ -8,7 +12,7 @@
       <p class="goodsprice">
         <span>￥</span>
         {{item.price}}
-        <span class="original-price">￥759</span>
+        <span class="original-price">￥{{item.oldprice}}</span>
       </p>
       <div class="btns">
         <a href="#">立即抢购</a>
@@ -20,6 +24,11 @@
 import GoodsList2 from "../../common/goodsList2/goodsList2";
 import GoodsListItem2 from "../../common/goodsList2/goodsList2Item";
 export default {
+  methods: {
+    goDetail(id) {
+      this.$router.push({ path: "/detail", query: { id } });
+    },
+  },
   props: {
     goodsList: {
       type: Array,
