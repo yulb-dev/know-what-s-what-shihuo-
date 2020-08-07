@@ -11,10 +11,10 @@
         </div>
       </top-bar>
       <scroll ref="scroll" :hideShowBackTop="true" @goTop="goTop">
-        <img :src="swiperItem.item.bcg" class="bcg" ref="bcg" />
+        <img :src="swiperItem.item.bcg" class="bcg" ref="bcg" @load="imgUp" />
         <div class="block">
           <h2>{{swiperItem.item.title2}}</h2>
-          <main-goods-list2 :goodsList="swiperItem.data"></main-goods-list2>
+          <main-goods-list2 :goodsList="swiperItem.data" @imgUp="imgUp" />
         </div>
       </scroll>
       <back-top @click.native="backlick" v-show="isShow" />
@@ -29,22 +29,13 @@ import MainGoodsList2 from "../../content/MainGoodsList2/MainGoodsList2";
 import TopBar from "../../common/topbar/TopBar";
 import Scroll from "../../common/Scroll/Scroll";
 import BackTop from "../../common/BackTop/BackTop";
+import { backTop } from "../../../common/mixin";
 export default {
+  mixins: [backTop],
   data() {
     return {
-      isShow: false,
+      cnum: 0,
     };
-  },
-  methods: {
-    goTop(isShow) {
-      this.isShow = isShow;
-    },
-    backlick() {
-      // 通过 @click.native 监听点击组件事件
-      //可以通过 子 ->父 传值在 scroll生命周期函数中将 scroll 实例传递给父组件，
-      //父组件创建对象保存，父组件再通过backlick调用scroll的scrollTo方法返回顶部
-      this.$refs.scroll.scroll.scrollTo(0, 0, 500);
-    },
   },
   props: {
     swiperItem: {
@@ -54,7 +45,13 @@ export default {
       },
     },
   },
-  created() {},
+  methods: {
+    imgUp() {
+      this.cnum++;
+      if (this.cnum == this.swiperItem.data.length + 1)
+        this.$refs.scroll.scroll.refresh();
+    },
+  },
   mounted() {},
   components: {
     MainGoodsList2,
@@ -112,7 +109,7 @@ export default {
     width: 100%;
     transition: 0.4s all;
     display: block;
-    padding-top: 46px;
+    padding-top: 50px;
   }
   .block {
     width: 90%;

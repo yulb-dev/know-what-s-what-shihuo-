@@ -20,10 +20,10 @@ export default {};
 .top-bar {
   background-color: #f7f7f7;
   width: 100%;
-  padding-top: 4px;
+  padding-top: 6px;
   padding-bottom: 1px;
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #e6e6e6;
+  border-bottom: 1px solid #ececec;
 }
 </style>

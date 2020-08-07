@@ -29,6 +29,7 @@ export default {
         pullUpLoad: true,
       });
       this.scroll.on("scroll", (position) => {
+        this.$emit("sendPosition", position);
         if (position.y < -800) this.$emit("goTop", true);
         else this.$emit("goTop", false);
       });
@@ -42,6 +43,7 @@ export default {
         probeType: 3,
       });
       this.scroll.on("scroll", (position) => {
+        this.$emit("sendPosition", position);
         if (position.y < -800) this.$emit("goTop", true);
         else this.$emit("goTop", false);
       });

@@ -13,7 +13,13 @@
         >{{item}}</span>
       </div>
     </top-bar>
-    <scroll ref="scroll" :hideShowBackTop="true" @goTop="goTop" @pullingUp="pullingUp">
+    <scroll
+      ref="scroll"
+      :hideShowBackTop="true"
+      @goTop="goTop"
+      @pullingUp="pullingUp"
+      @sendPosition="getPosition"
+    >
       <swiper
         v-if="change"
         :imglist="item.parameter[1].value[colorIndex].img"
@@ -25,11 +31,11 @@
         <h2>内容精选 (9)</h2>
         <ul v-if="item">
           <li v-for="(item1, index) in item.imglist" :key="index">
-            <img :src="item1" @load="imgUp" />
+            <img :src="item1" />
           </li>
         </ul>
       </div>
-      <div class="goods-comments">
+      <div class="goods-comments" ref="comments">
         <span class="qwkb">+&nbsp;添加口碑</span>
         <h2>
           全网口碑
@@ -48,7 +54,7 @@
           <p class="content">{{item1.usercomment}}</p>
         </div>
       </div>
-      <div class="goods-content">
+      <div class="goods-content" ref="content">
         <h2>鞋款介绍</h2>
         <img src="../../assets/img/bcgg/bcgg2.png" />
         <ul>
@@ -57,11 +63,12 @@
           </li>
         </ul>
       </div>
-      <div class="recommend">
+      <div class="recommend" ref="recommend">
         <h2>更多商品推荐</h2>
-        <main-goods-list2 :goodsList="recommendList" />
+        <main-goods-list2 :goodsList="recommendList" @imgUp="recommendUp" />
       </div>
     </scroll>
+    <main-bottom-bar />
     <back-top @click.native="backlick" v-show="isShow" />
   </div>
 </template>
@@ -72,18 +79,22 @@ import TopBar from "../../componets/common/topbar/TopBar";
 import Scroll from "../../componets/common/Scroll/Scroll";
 import BackTop from "../../componets/common/BackTop/BackTop";
 import MainGoodsList2 from "../../componets/content/MainGoodsList2/MainGoodsList2";
+import MainBottomBar from "../../componets/content/MainBottomBar/MainBottomBar";
 import { getGoodsDetail, Goods, getRecommendList } from "../../network/Detail";
+import debounce from "../../common/debounce";
+import { backTop } from "../../common/mixin";
 export default {
   name: "Detail",
+  mixins: [backTop],
   data() {
     return {
+      obj: null,
+      positionArr: [],
       recommendList: null,
-      imgUpNum: 0,
       change: true,
-      isShow: false,
       goods: null,
       item: null,
-      btList: ["商品", "参数", "评论", "推荐"],
+      btList: ["商品", "评论", "内容", "推荐"],
       clickIndex: 0,
       colorIndex: 0,
     };
@@ -103,10 +114,30 @@ export default {
     },
   },
   methods: {
-    imgUp() {
-      this.imgUpNum++;
-      if (this.imgUpNum == this.item.imglist.length)
+    getPosition(position) {
+      for (let i = 0; i < this.positionArr.length; i++) {
+        if (
+          -position.y >= this.positionArr[i] &&
+          -position.y <= this.positionArr[i + 1] &&
+          this.clickIndex != i &&
+          i <= 2
+        )
+          this.clickIndex = i;
+        else if (-position.y >= this.positionArr[i] && this.clickIndex != i)
+          this.clickIndex = i;
+      }
+    },
+    recommendUp() {
+      //防抖
+      if (this.obj) clearTimeout(this.obj);
+      this.obj = setTimeout(() => {
+        this.positionArr = [];
+        this.positionArr.push(0);
+        this.positionArr.push(this.$refs.comments.offsetTop - 44);
+        this.positionArr.push(this.$refs.content.offsetTop - 44);
+        this.positionArr.push(this.$refs.recommend.offsetTop - 44);
         this.$refs.scroll.scroll.refresh();
+      }, 50);
     },
     imgListChange(index) {
       this.colorIndex = index;
@@ -121,17 +152,9 @@ export default {
     },
     cIndex(index) {
       this.clickIndex = index;
+      this.$refs.scroll.scroll.scrollTo(0, -this.positionArr[index], 200);
     },
     pullingUp() {},
-    goTop(isShow) {
-      this.isShow = isShow;
-    },
-    backlick() {
-      // 通过 @click.native 监听点击组件事件
-      //可以通过 子 ->父 传值在 scroll生命周期函数中将 scroll 实例传递给父组件，
-      //父组件创建对象保存，父组件再通过backlick调用scroll的scrollTo方法返回顶部
-      this.$refs.scroll.scroll.scrollTo(0, 0, 500);
-    },
   },
   created() {
     getGoodsDetail(this.$route.query.id).then((data) => {
@@ -142,7 +165,19 @@ export default {
       });
     });
   },
+  watch: {
+    $route(to, from) {
+      getGoodsDetail(to.query.id).then((data) => {
+        this.item = data;
+        this.goods = new Goods(data);
+        getRecommendList(data.recommend).then((data1) => {
+          this.recommendList = data1;
+        });
+      });
+    },
+  },
   components: {
+    MainBottomBar,
     MainGoodsList2,
     MainGoodsDetail,
     TopBar,
@@ -154,6 +189,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .recommend {
+  padding-bottom: 40px;
   h2 {
     color: #333;
     font-size: 17px;

@@ -10,10 +10,13 @@ export default {};
 
 <style lang="less">
 .backtop {
-  box-shadow: 0 0px 4px 1px #b8b8b8;
-  border-radius: 50%;
+  img {
+    display: block;
+    box-shadow: 0 0px 4px 1px #b8b8b8;
+    border-radius: 50%;
+  }
   position: absolute;
-  bottom: 58px;
+  bottom: 60px;
   right: 10px;
 }
 </style>

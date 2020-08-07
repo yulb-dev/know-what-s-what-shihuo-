@@ -36,13 +36,14 @@ import Swiper from "../../componets/common/swiper/Swiper";
 // import Activity from "../../componets/common/activity/activity";
 import { swiperreq, recommreq, getPopularList } from "../../network/homereq";
 import debounce from "../../common/debounce";
+import { backTop } from "../../common/mixin";
 export default {
+  mixins: [backTop],
   data() {
     return {
       saveY: 0,
       swiperItem: null,
       infoIsShow: false,
-      isShow: false,
       imglist: [],
       recoImgList: [],
       sle: "popular",
@@ -86,15 +87,6 @@ export default {
     pullingUp() {
       // console.log("ok");
       this["get" + this.sle + "List"]();
-    },
-    goTop(isShow) {
-      this.isShow = isShow;
-    },
-    backlick() {
-      // 通过 @click.native 监听点击组件事件
-      //可以通过 子 ->父 传值在 scroll生命周期函数中将 scroll 实例传递给父组件，
-      //父组件创建对象保存，父组件再通过backlick调用scroll的scrollTo方法返回顶部
-      this.$refs.scroll.scroll.scrollTo(0, 0, 500);
     },
     cswitch(sle) {
       this.sle = sle;
@@ -150,8 +142,8 @@ export default {
   activated() {
     // console.log(this.saveY);
     //先刷新 scroll 再获取高度会解决切换后重新回到顶部的问题
-    this.$refs.scroll.scroll.refresh();
-    this.$refs.scroll.scroll.scrollTo(0, this.saveY, 0);
+    this.$refs.scroll && this.$refs.scroll.scroll.refresh();
+    this.$refs.scroll && this.$refs.scroll.scroll.scrollTo(0, this.saveY, 0);
   },
   deactivated() {
     // console.log(this.$refs.scroll.scroll.startY);

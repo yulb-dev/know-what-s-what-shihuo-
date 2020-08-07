@@ -6,7 +6,7 @@
       @click.native="goDetail(item._id)"
     >
       <div class="goodsList2">
-        <img :src="item.img" width="100%" />
+        <img :src="item.img" width="100%" @load="$emit('imgUp')" />
       </div>
       <p class="goodsname">{{item.name}}</p>
       <p class="goodsprice">
