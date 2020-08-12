@@ -17,7 +17,7 @@
   </div>
 </template>
 <script>
-import { islogin, isregistered } from "../../network/login";
+import { islogin, isregistered, addScarts } from "../../network/login";
 export default {
   name: "login",
   data() {
@@ -36,13 +36,14 @@ export default {
       this.username = this.username.replace(/\s+/g, "");
       if (this.username != "" && this.password != "") {
         this.dlc = false;
-        islogin(this.username, this.password).then((data) => {
+        islogin(this.username, this.password).then(({ data, data1 }) => {
           if (typeof data == "string") {
             this.cwts = data;
             this.dlc = true;
           } else {
+            data.shoppingCart = data1;
             this.$store.state.user = data;
-            this.$router.replace("/profile");
+            this.$router.go(-1);
           }
         });
       } else {
@@ -67,13 +68,13 @@ export default {
             this.dlc = true;
           } else {
             this.$store.state.user = data;
-            this.$router.replace("/profile");
+            this.$router.go(-1);
           }
         });
       }
     },
     goBack() {
-      this.$router.replace("/profile");
+      this.$router.go(-1);
     },
   },
   mounted() {

@@ -2,12 +2,22 @@
   <transition>
     <div class="info" v-if="swiperItem">
       <top-bar>
-        <div slot="left" @click="$emit('shutInfo')">
+        <div slot="left" @click="$emit('shutInfo');isBox = false">
           <img src="../../../assets/img/icon/head_back.png" width="43px" />
         </div>
         <div slot="center">{{swiperItem.item.title}}</div>
         <div slot="right">
-          <img src="../../../assets/img/icon/head_list.png" width="43px" />
+          <img src="../../../assets/img/icon/head_list.png" width="43px" @click="sBox" />
+          <div class="box" v-if="isBox">
+            <ul>
+              <li @click="$router.push('/profile')">
+                <img
+                  src="http://sh1.hoopchina.com.cn/fis_static/shihuomobile/static/common/widget/header/user-center-icon_77dfd45.png"
+                />
+                <span>我的</span>
+              </li>
+            </ul>
+          </div>
         </div>
       </top-bar>
       <scroll ref="scroll" :hideShowBackTop="true" @goTop="goTop">
@@ -32,6 +42,7 @@ export default {
   data() {
     return {
       cnum: 0,
+      isBox: false,
     };
   },
   props: {
@@ -43,6 +54,9 @@ export default {
     },
   },
   methods: {
+    sBox() {
+      this.isBox = !this.isBox;
+    },
     imgUp() {
       this.cnum++;
       if (this.cnum == this.swiperItem.data.length + 1)
@@ -100,6 +114,44 @@ export default {
     color: #333;
     font-weight: bolder;
     font-size: 19px;
+  }
+  .top-bar-right {
+    .box {
+      width: 130px;
+      border-radius: 3px;
+      background-color: rgba(0, 0, 0, 0.7);
+      position: absolute;
+      right: 10px;
+      top: 40px;
+      &::before {
+        position: absolute;
+        content: "";
+        right: 6px;
+        top: -6px;
+        border-bottom: 6px solid rgba(0, 0, 0, 0.7);
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+      }
+      li {
+        color: #fff;
+        letter-spacing: 1px;
+        width: 100%;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        img {
+          height: 19px;
+          display: inline-block;
+        }
+        span {
+          font-size: 14px;
+          line-height: 42px;
+          display: inline-block;
+          margin-left: 10px;
+        }
+      }
+    }
   }
   .bcg {
     width: 100%;

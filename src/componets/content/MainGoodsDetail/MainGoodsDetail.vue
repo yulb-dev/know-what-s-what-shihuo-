@@ -68,21 +68,23 @@ export default {
       this.judge();
     },
     judge() {
-      var i = 0;
-      this.$store.state.user.Favorites.forEach((item) => {
-        if (
-          item.id == this.goods.id &&
-          item.color == this.goods.coloList[this.isSelect].name &&
-          item.size == this.goods.sizeList[this.sizeActivity]
-        )
-          i++;
-      });
-      if (i) this.$emit("isFavorite", true);
-      else this.$emit("isFavorite", false);
+      if (this.$store.state.user) {
+        var i = 0;
+        this.$store.state.user.Favorites.forEach((item) => {
+          if (
+            item.id == this.goods.id &&
+            item.color == this.goods.coloList[this.isSelect].name &&
+            item.size == this.goods.sizeList[this.sizeActivity]
+          )
+            i++;
+        });
+        if (i) this.$emit("isFavorite", true);
+        else this.$emit("isFavorite", false);
+      }
     },
   },
   created() {
-    if (this.$store.state.user) this.judge();
+    this.judge();
   },
   props: {
     goods: {

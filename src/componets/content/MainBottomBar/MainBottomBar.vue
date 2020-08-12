@@ -4,11 +4,11 @@
       <i class="iconfont icon-shoucang"></i>
       <span>&nbsp;收藏</span>
     </div>
-    <div class="gwc">
+    <div :class="{sc:!isGwc,isSc:isGwc}" @click="$emit('scar')">
       <i class="iconfont icon-icon4"></i>
       <span>&nbsp;购物车</span>
     </div>
-    <div class="ljgm">
+    <div class="ljgm" @click="$emit('gobuy')">
       <span>立即购买</span>
     </div>
   </div>
@@ -17,6 +17,10 @@
 export default {
   props: {
     isSc: {
+      type: Boolean,
+      default: false,
+    },
+    isGwc: {
       type: Boolean,
       default: false,
     },

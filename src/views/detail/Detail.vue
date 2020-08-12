@@ -73,7 +73,14 @@
         <main-goods-list2 :goodsList="recommendList" @imgUp="recommendUp" />
       </div>
     </scroll>
-    <main-bottom-bar @favorites="favorites" :isSc="isSc" />
+    <alert-box v-show="ab" :boxContent="boxContent" />
+    <main-bottom-bar
+      :isSc="isSc"
+      :isGwc="isGwc"
+      @favorites="favorites"
+      @gobuy="goBuy"
+      @scar="scar"
+    />
     <back-top @click.native="backlick" v-show="isShow" />
   </div>
 </template>
@@ -84,12 +91,14 @@ import TopBar from "../../componets/common/topbar/TopBar";
 import Scroll from "../../componets/common/Scroll/Scroll";
 import MainGoodsList2 from "../../componets/content/MainGoodsList2/MainGoodsList2";
 import MainBottomBar from "../../componets/content/MainBottomBar/MainBottomBar";
+import AlertBox from "../../componets/common/alertBox/alertBox";
 import {
   getGoodsDetail,
   Goods,
   getRecommendList,
   addFavorites,
   unFavorite,
+  addSpCart,
 } from "../../network/Detail";
 import debounce from "../../common/debounce";
 import { backTop } from "../../common/mixin";
@@ -108,6 +117,9 @@ export default {
       clickIndex: 0,
       colorIndex: 0,
       isSc: false,
+      isGwc: false,
+      ab: false,
+      boxContent: "",
     };
   },
   filters: {
@@ -125,27 +137,14 @@ export default {
     },
   },
   methods: {
-    isFavorite(a) {
-      this.isSc = a;
-    },
-    favorites() {
-      if (this.isSc) {
+    scar() {
+      //加入购物车
+      if (this.$store.state.user) {
         var obj = {
-          id: this.item._id,
-          color: this.item.parameter[1].value[
-            this.$refs.MainGoodsDetail.isSelect
-          ].name,
-          size: this.item.parameter[0].value[
-            this.$refs.MainGoodsDetail.sizeActivity
-          ],
-        };
-        unFavorite(this.$store.state.user._id, obj);
-        this.$store.commit("unFavorite", obj);
-      } else {
-        var obj = {
+          userid: this.$store.state.user._id,
           name: this.item.name,
           price: this.item.price,
-          id: this.item._id,
+          goodsid: this.item._id,
           color: this.item.parameter[1].value[
             this.$refs.MainGoodsDetail.isSelect
           ].name,
@@ -154,10 +153,84 @@ export default {
           ],
           img: this.item.parameter[1].value[this.$refs.MainGoodsDetail.isSelect]
             .img[0],
+          num: 1,
         };
-        this.$store.commit("addFavorites", obj);
-        this.isFavorite(true);
-        addFavorites(this.$store.state.user._id, obj).then((data) => {});
+        this.$store.commit("addSpCart", obj);
+        this.isSpCart(true);
+        this.box("已加入购物车");
+        // addSpCart(obj);
+      } else {
+        this.$router.push("/login");
+      }
+    },
+    goBuy() {
+      //立即购买
+      this.box("购买成功");
+    },
+    box(value) {
+      this.boxContent = value;
+      this.ab = true;
+      setTimeout(() => {
+        this.ab = false;
+      }, 1400);
+    },
+    isSpCart() {
+      this.isGwc = true;
+    },
+    isFavorite(a) {
+      this.isSc = a;
+    },
+    favorites() {
+      //点击收藏
+      if (this.$store.state.user) {
+        if (this.isSc) {
+          var obj = {
+            id: this.item._id,
+            color: this.item.parameter[1].value[
+              this.$refs.MainGoodsDetail.isSelect
+            ].name,
+            size: this.item.parameter[0].value[
+              this.$refs.MainGoodsDetail.sizeActivity
+            ],
+          };
+          this.isFavorite(false);
+          this.box("取消收藏");
+          this.goods.favorites--;
+          this.$store.commit("unFavorite", obj);
+          unFavorite(
+            this.$store.state.user._id,
+            obj,
+            this.item._id,
+            this.goods.favorites
+          );
+        } else {
+          var obj = {
+            name: this.item.name,
+            price: this.item.price,
+            id: this.item._id,
+            color: this.item.parameter[1].value[
+              this.$refs.MainGoodsDetail.isSelect
+            ].name,
+            size: this.item.parameter[0].value[
+              this.$refs.MainGoodsDetail.sizeActivity
+            ],
+            img: this.item.parameter[1].value[
+              this.$refs.MainGoodsDetail.isSelect
+            ].img[0],
+          };
+          this.$store.commit("addFavorites", obj);
+          this.isFavorite(true);
+          this.box("收藏成功");
+          this.goods.favorites++;
+          addFavorites(
+            this.$store.state.user._id,
+            obj,
+            this.item._id,
+            this.goods.favorites
+          );
+        }
+      } else {
+        this.$router.push("/login");
       }
     },
     getPosition(position) {
@@ -226,6 +299,7 @@ export default {
     MainBottomBar,
     MainGoodsList2,
     MainGoodsDetail,
+    AlertBox,
     TopBar,
     Swiper,
     Scroll,

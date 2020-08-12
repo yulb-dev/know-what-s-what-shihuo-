@@ -73,9 +73,11 @@ router.beforeEach((to, from, next) => {
     if (store.state.user)
         next()
     else {
-        init().then((data) => {
-            if (data)
-                store.state.user = data
+        init().then(({ data, data1 }) => {
+            if (data) {
+                data.shoppingCart = data1;
+                store.state.user = data;
+            }
             next()
         })
 
