@@ -23,12 +23,9 @@
 </template>
 
 <script>
-// import BScroll from "better-scroll";
-
 import MainGoodsList2 from "../../content/MainGoodsList2/MainGoodsList2";
 import TopBar from "../../common/topbar/TopBar";
 import Scroll from "../../common/Scroll/Scroll";
-import BackTop from "../../common/BackTop/BackTop";
 import { backTop } from "../../../common/mixin";
 export default {
   mixins: [backTop],
@@ -57,7 +54,6 @@ export default {
     MainGoodsList2,
     TopBar,
     Scroll,
-    BackTop,
   },
 };
 </script>

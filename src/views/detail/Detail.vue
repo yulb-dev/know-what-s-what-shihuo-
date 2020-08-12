@@ -26,7 +26,12 @@
         @ctoItemDetails="ctoItemDetails"
         ref="swiper"
       />
-      <main-goods-detail :goods="goods" @imgListChange="imgListChange" />
+      <main-goods-detail
+        :goods="goods"
+        @imgListChange="imgListChange"
+        ref="MainGoodsDetail"
+        @isFavorite="isFavorite"
+      />
       <div class="imglist">
         <h2>内容精选 (9)</h2>
         <ul v-if="item">
@@ -68,7 +73,7 @@
         <main-goods-list2 :goodsList="recommendList" @imgUp="recommendUp" />
       </div>
     </scroll>
-    <main-bottom-bar />
+    <main-bottom-bar @favorites="favorites" :isSc="isSc" />
     <back-top @click.native="backlick" v-show="isShow" />
   </div>
 </template>
@@ -77,10 +82,15 @@ import MainGoodsDetail from "../../componets/content/MainGoodsDetail/MainGoodsDe
 import Swiper from "../../componets/common/swiper/swiper2";
 import TopBar from "../../componets/common/topbar/TopBar";
 import Scroll from "../../componets/common/Scroll/Scroll";
-import BackTop from "../../componets/common/BackTop/BackTop";
 import MainGoodsList2 from "../../componets/content/MainGoodsList2/MainGoodsList2";
 import MainBottomBar from "../../componets/content/MainBottomBar/MainBottomBar";
-import { getGoodsDetail, Goods, getRecommendList } from "../../network/Detail";
+import {
+  getGoodsDetail,
+  Goods,
+  getRecommendList,
+  addFavorites,
+  unFavorite,
+} from "../../network/Detail";
 import debounce from "../../common/debounce";
 import { backTop } from "../../common/mixin";
 export default {
@@ -97,6 +107,7 @@ export default {
       btList: ["商品", "评论", "内容", "推荐"],
       clickIndex: 0,
       colorIndex: 0,
+      isSc: false,
     };
   },
   filters: {
@@ -114,6 +125,41 @@ export default {
     },
   },
   methods: {
+    isFavorite(a) {
+      this.isSc = a;
+    },
+    favorites() {
+      if (this.isSc) {
+        var obj = {
+          id: this.item._id,
+          color: this.item.parameter[1].value[
+            this.$refs.MainGoodsDetail.isSelect
+          ].name,
+          size: this.item.parameter[0].value[
+            this.$refs.MainGoodsDetail.sizeActivity
+          ],
+        };
+        unFavorite(this.$store.state.user._id, obj);
+        this.$store.commit("unFavorite", obj);
+      } else {
+        var obj = {
+          name: this.item.name,
+          price: this.item.price,
+          id: this.item._id,
+          color: this.item.parameter[1].value[
+            this.$refs.MainGoodsDetail.isSelect
+          ].name,
+          size: this.item.parameter[0].value[
+            this.$refs.MainGoodsDetail.sizeActivity
+          ],
+          img: this.item.parameter[1].value[this.$refs.MainGoodsDetail.isSelect]
+            .img[0],
+        };
+        this.$store.commit("addFavorites", obj);
+        this.isFavorite(true);
+        addFavorites(this.$store.state.user._id, obj).then((data) => {});
+      }
+    },
     getPosition(position) {
       for (let i = 0; i < this.positionArr.length; i++) {
         if (
@@ -183,7 +229,6 @@ export default {
     TopBar,
     Swiper,
     Scroll,
-    BackTop,
   },
 };
 </script>

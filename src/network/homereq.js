@@ -3,6 +3,7 @@ import axios from 'axios'
 const request = axios.create({
     baseURL: 'http://127.0.0.1:6060/home',
     timeout: 1000,
+    withCredentials: true   //设置此项  会携带跨域cookie
 });
 
 // 处理响应拦截

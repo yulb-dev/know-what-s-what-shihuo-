@@ -1,3 +1,5 @@
+import BackTop from "../componets/common/BackTop/BackTop.vue";
+
 export var backTop = {
     data() {
         return {
@@ -15,4 +17,7 @@ export var backTop = {
             this.$refs.scroll.scroll.scrollTo(0, 0, 500);
         },
     },
+    components: {
+        BackTop
+    }
 }

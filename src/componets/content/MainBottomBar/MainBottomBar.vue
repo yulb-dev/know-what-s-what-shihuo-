@@ -1,6 +1,6 @@
 <template>
   <div class="bottom-bar">
-    <div class="sc">
+    <div :class="{sc:!isSc,isSc:isSc}" @click="$emit('favorites')">
       <i class="iconfont icon-shoucang"></i>
       <span>&nbsp;收藏</span>
     </div>
@@ -14,7 +14,14 @@
   </div>
 </template>
 <script>
-export default {};
+export default {
+  props: {
+    isSc: {
+      type: Boolean,
+      default: false,
+    },
+  },
+};
 </script>
 <style lang="less">
 .bottom-bar {
@@ -29,7 +36,33 @@ export default {};
   justify-content: space-between;
   padding: 7px 7px;
   box-shadow: 0px 13px 20px 15px #d8d8d8;
-  .sc,
+  color: #333;
+  .isSc {
+    color: #ff4338;
+
+    i {
+      font-size: 20px;
+    }
+    text-align: center;
+    width: 22%;
+    height: 100%;
+    font-size: 14px;
+    line-height: 40px;
+    border: 0.6px solid #ff4338;
+    border-radius: 2px;
+  }
+  .sc {
+    i {
+      font-size: 20px;
+    }
+    text-align: center;
+    width: 22%;
+    height: 100%;
+    font-size: 14px;
+    line-height: 40px;
+    border: 0.6px solid rgb(214, 214, 214);
+    border-radius: 2px;
+  }
   .gwc {
     i {
       font-size: 20px;
@@ -38,7 +71,6 @@ export default {};
     width: 22%;
     height: 100%;
     font-size: 14px;
-    color: #333;
     line-height: 40px;
     border: 0.6px solid rgb(214, 214, 214);
     border-radius: 2px;

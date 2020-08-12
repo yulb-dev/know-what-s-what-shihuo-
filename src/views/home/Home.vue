@@ -29,7 +29,6 @@ import MainActivity from "../../componets/content/MainActivity/MainActivity";
 import MainGoodsList from "../../componets/content/MainGoodsList/MainGoodsList";
 
 import MainInfo from "../../componets/content/MainInfo/MainInfo";
-import BackTop from "../../componets/common/BackTop/BackTop";
 import Scroll from "../../componets/common/Scroll/Scroll";
 import swiper2 from "../../componets/common/swiper/swiper2";
 import Swiper from "../../componets/common/swiper/Swiper";
@@ -158,7 +157,6 @@ export default {
     MainInfo,
     Swiper,
     Scroll,
-    BackTop,
     swiper2,
     // Activity,
   },
@@ -166,7 +164,7 @@ export default {
 </script>
 <style lang="less">
 .swiper-wrapper {
-  padding-top: 46px;
+  padding-top: 56px;
 }
 .body {
   position: relative;
@@ -176,7 +174,7 @@ export default {
 }
 .nav-bar {
   z-index: 100;
-  padding: 0 7px;
+  padding: 6px 7px;
   position: fixed;
   top: 0;
   left: 0;
@@ -198,9 +196,10 @@ export default {
     width: 100%;
     border: 1px solid rgb(216, 215, 215);
     padding-left: 34px;
-    color: rgb(105, 105, 105);
+    letter-spacing: 1px;
+    color: rgb(90, 90, 90);
     caret-color: rgb(255, 70, 70);
-    font-size: 16px;
+    font-size: 14px;
     -webkit-appearance: none;
   }
 }

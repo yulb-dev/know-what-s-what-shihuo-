@@ -17,7 +17,7 @@ export default {};
   // padding: 0 6px;
   background-color: white;
   display: flex;
-  height: 44px;
+  // height: 44px;
   width: 100%;
   .left {
     flex: 1;

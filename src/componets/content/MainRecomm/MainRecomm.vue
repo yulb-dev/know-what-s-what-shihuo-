@@ -5,6 +5,7 @@
       v-for="(item, index) in recoImgList"
       :key="index"
       :class="{border1:index%2==0,border2:!(index%2==0)}"
+      @click="goRecommend(item)"
     >
       <div>
         <h2>{{item.name}}</h2>
@@ -20,6 +21,14 @@ export default {
   props: {
     recoImgList: {
       type: Array,
+    },
+  },
+  methods: {
+    goRecommend(item) {
+      this.$router.push({
+        path: "/recommend",
+        query: { name: item.name, title: item.title },
+      });
     },
   },
   components: {

@@ -12,9 +12,18 @@ export function getGoodsDetail(id) {
 export function getRecommendList(idArr) {
     return axios.post('http://127.0.0.1:6060/goodsDetail/recommend', { idArr })
 }
+//添加收藏
+export function addFavorites(id, data) {
+    return axios.post('http://127.0.0.1:6060/goodsDetail/addFavorites', { id, data })
+}
+//取消收藏
+export function unFavorite(id, data) {
+    return axios.post('http://127.0.0.1:6060/goodsDetail/unFavorite', { id, data })
+}
 
 export class Goods {
     constructor(item) {
+        this.id = item._id
         this.name = item.name
         this.price = item.price
         this.sales = item.sales
