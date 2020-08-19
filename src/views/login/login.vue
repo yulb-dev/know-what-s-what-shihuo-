@@ -36,12 +36,13 @@ export default {
       this.username = this.username.replace(/\s+/g, "");
       if (this.username != "" && this.password != "") {
         this.dlc = false;
-        islogin(this.username, this.password).then(({ data, data1 }) => {
+        islogin(this.username, this.password).then(({ data, data1, data2 }) => {
           if (typeof data == "string") {
             this.cwts = data;
             this.dlc = true;
           } else {
             data.shoppingCart = data1;
+            data.Order = data2;
             this.$store.state.user = data;
             this.$router.go(-1);
           }

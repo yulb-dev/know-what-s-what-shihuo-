@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <keep-alive exclude="Detail,login,recommend">
+    <keep-alive
+      exclude="Detail,login,recommend,favorites,order,specialArea,search,catePage,settings"
+    >
       <router-view></router-view>
     </keep-alive>
     <main-tab-bar />
@@ -22,4 +24,8 @@ export default {
 <style lang="less">
 @import "./assets/css/icon/iconfont.css";
 @import "./assets/css/base.css";
+#app {
+  width: 100%;
+  height: 100%;
+}
 </style>

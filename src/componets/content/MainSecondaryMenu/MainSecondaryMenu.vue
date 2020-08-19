@@ -5,7 +5,12 @@
         <p>{{item.name}}</p>
       </div>
       <div class="sbox">
-        <div class="three-level-item" v-for="(item1, index) in item.children" :key="index+''">
+        <div
+          class="three-level-item"
+          v-for="(item1, index) in item.children"
+          :key="index+''"
+          @click="goPage(item1)"
+        >
           <img :src="item1.img" />
           <p>{{item1.name}}</p>
         </div>
@@ -22,7 +27,14 @@ export default {
       Aname: "",
     };
   },
-  created() {},
+  methods: {
+    goPage(item) {
+      this.$router.push({
+        path: "/catePage",
+        query: { name: item.name, path: item.path[0], grade: item.grade },
+      });
+    },
+  },
   watch: {
     menuName(value) {
       var obj = { name: "热门品牌", path: ["热门品牌"], grade: 2 };

@@ -1,23 +1,26 @@
 <template>
   <div class="profile" ref="profile">
-    <div v-if="$store.state.user" class="profile-content">
-      <div class="avatar">
-        <img :src="$store.state.user.avatar" />
-        <p>{{$store.state.user.name}}</p>
+    <div class="profile-content">
+      <div class="avatar" @click="goLogin">
+        <img
+          :src="$store.state.user?$store.state.user.avatar:'http://sh1.hoopchina.com.cn/fis_static/shihuomobile/static/user/head_02977e3.png'"
+        />
+        <p>{{$store.state.user?$store.state.user.name:'登录/注册'}}</p>
+        <span class="iconfont icon-shezhi" @click="goSettings" v-if="$store.state.user"></span>
       </div>
       <div class="card">
         <div class="card-content">
-          <div class="first-row">
+          <div class="first-row" @click="goFavorites">
             <p>收藏夹</p>
-            <span>{{$store.state.user.Favorites.length}}件</span>
+            <span>{{$store.state.user?$store.state.user.Favorites.length+'件':'未登录'}}</span>
           </div>
           <div class="xian"></div>
           <div class="first-row">
             <p>浏览历史</p>
-            <span>共129条记录</span>
+            <span>{{$store.state.user?'124条记录':'未登录'}}</span>
           </div>
           <div class="xian2"></div>
-          <div class="second-row">
+          <div class="second-row" @click="goOrder">
             <p>订单</p>
           </div>
           <div class="xian"></div>
@@ -33,74 +36,71 @@
       <div class="activity">
         <img src="../../assets/img/bcgg/card1.png" />
         <img src="../../assets/img/bcgg/card2.png" />
-      </div>
-    </div>
-    <div v-else class="profile-content">
-      <div class="avatar">
-        <img src="http://sh1.hoopchina.com.cn/fis_static/shihuomobile/static/user/head_02977e3.png" />
-        <p @click="goLogin">登录/注册</p>
-      </div>
-      <div class="card">
-        <div class="card-content">
-          <div class="first-row">
-            <p>收藏夹</p>
-            <span>暂无记录</span>
-          </div>
-          <div class="xian"></div>
-          <div class="first-row">
-            <p>浏览历史</p>
-            <span>暂无记录</span>
-          </div>
-          <div class="xian2"></div>
-          <div class="second-row">
-            <p>订单</p>
-          </div>
-          <div class="xian"></div>
-          <div class="second-row">
-            <p>优惠券</p>
-          </div>
-          <div class="xian"></div>
-          <div class="second-row">
-            <p>补贴</p>
-          </div>
-        </div>
-      </div>
-      <div class="activity">
-        <img src="../../assets/img/bcgg/card1.png" />
-        <img src="../../assets/img/bcgg/card2.png" />
+        <div class="exit" @click="exit" v-if="$store.state.user">退出</div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { exit } from "../../network/category";
 export default {
-  created() {
-    // console.log(this.$store.state);
-  },
   methods: {
-    goLogin() {
-      this.$router.push("/login");
+    exit() {
+      exit().then((data) => {
+        this.$store.state.user = null;
+      });
     },
-  },
-  mounted() {
-    this.$refs.profile.style.height = window.screen.availHeight + "px";
+    goSettings() {
+      //进入设置页
+      this.$router.push("/settings");
+    },
+    goOrder() {
+      //进入订单页面
+      if (!this.$store.state.user) this.$router.push("/login");
+      else {
+        this.$router.push("/order");
+      }
+    },
+    goFavorites() {
+      //进入收藏夹
+      if (!this.$store.state.user) this.$router.push("/login");
+      else {
+        this.$router.push("/favorites");
+      }
+    },
+    goLogin() {
+      if (!this.$store.state.user) this.$router.push("/login");
+    },
   },
 };
 </script>
 <style lang="less">
 .profile {
   width: 100%;
+  height: 100%;
   background-color: rgb(247, 247, 247);
   overflow: auto;
   .profile-content {
     width: 100%;
     .activity {
+      padding-bottom: 49px;
       img {
         display: block;
         width: 100%;
         margin-bottom: 8px;
       }
-      padding-bottom: 49px;
+      .exit {
+        width: 80%;
+        line-height: 36px;
+        border-radius: 6px;
+        letter-spacing: 2px;
+        font-weight: bold;
+        color: #fff;
+        font-size: 18px;
+        text-align: center;
+        background-color: crimson;
+        margin: 10px auto;
+      }
     }
     .card {
       padding: 10px 10px;
@@ -153,6 +153,13 @@ export default {
       width: 100%;
       padding: 40px 10px 16px 10px;
       display: flex;
+      span {
+        display: block;
+        font-size: 28px;
+        color: rgb(139, 139, 139);
+        padding-right: 16px;
+        line-height: 56px;
+      }
       img {
         display: block;
         border-radius: 50%;

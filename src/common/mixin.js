@@ -1,4 +1,5 @@
 import BackTop from "../componets/common/BackTop/BackTop.vue";
+import AlertBox from '../componets/common/alertBox/alertBox.vue'
 
 export var backTop = {
     data() {
@@ -19,5 +20,25 @@ export var backTop = {
     },
     components: {
         BackTop
+    }
+}
+export var box = {
+    data() {
+        return {
+            ab: false,
+            boxContent: ''
+        }
+    },
+    methods: {
+        box(value) {
+            this.boxContent = value;
+            this.ab = true;
+            setTimeout(() => {
+                this.ab = false;
+            }, 1400);
+        },
+    },
+    components: {
+        AlertBox,
     }
 }

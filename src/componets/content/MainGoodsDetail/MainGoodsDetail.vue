@@ -72,7 +72,7 @@ export default {
         var i = 0;
         this.$store.state.user.Favorites.forEach((item) => {
           if (
-            item.id == this.goods.id &&
+            item.goodsid == this.goods.id &&
             item.color == this.goods.coloList[this.isSelect].name &&
             item.size == this.goods.sizeList[this.sizeActivity]
           )

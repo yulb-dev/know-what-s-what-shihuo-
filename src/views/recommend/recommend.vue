@@ -32,7 +32,7 @@
         />
       </div>
       <div class="logoList">
-        <div v-for="(item, index) in logoList" :key="index">
+        <div v-for="(item, index) in logoList" :key="index" @click="goSa(item)">
           <img :src="item.img" />
           <p>{{item.name}}</p>
         </div>
@@ -61,6 +61,16 @@ export default {
     };
   },
   methods: {
+    goSa(item) {
+      this.$router.push({
+        path: "/specialArea",
+        query: {
+          title1: this.$route.query.name,
+          title2: item.name,
+          id: item._id,
+        },
+      });
+    },
     imgUp() {
       this.num++;
       if (this.num == this.goodsList.length) this.$refs.scroll.scroll.refresh();

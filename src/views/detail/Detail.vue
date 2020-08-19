@@ -41,7 +41,7 @@
         </ul>
       </div>
       <div class="goods-comments" ref="comments">
-        <span class="qwkb">+&nbsp;添加口碑</span>
+        <span class="qwkb" @click="goPl">+&nbsp;添加口碑</span>
         <h2>
           全网口碑
           <span>(388)</span>
@@ -74,6 +74,7 @@
       </div>
     </scroll>
     <alert-box v-show="ab" :boxContent="boxContent" />
+    <cbox v-if="cbox" @sdcbox="sdCbox" />
     <main-bottom-bar
       :isSc="isSc"
       :isGwc="isGwc"
@@ -91,7 +92,7 @@ import TopBar from "../../componets/common/topbar/TopBar";
 import Scroll from "../../componets/common/Scroll/Scroll";
 import MainGoodsList2 from "../../componets/content/MainGoodsList2/MainGoodsList2";
 import MainBottomBar from "../../componets/content/MainBottomBar/MainBottomBar";
-import AlertBox from "../../componets/common/alertBox/alertBox";
+import Cbox from "../../componets/common/cbox/cbox";
 import {
   getGoodsDetail,
   Goods,
@@ -99,12 +100,14 @@ import {
   addFavorites,
   unFavorite,
   addSpCart,
+  buyNow,
+  addComments,
 } from "../../network/Detail";
 import debounce from "../../common/debounce";
-import { backTop } from "../../common/mixin";
+import { backTop, box } from "../../common/mixin";
 export default {
   name: "Detail",
-  mixins: [backTop],
+  mixins: [backTop, box],
   data() {
     return {
       obj: null,
@@ -118,8 +121,7 @@ export default {
       colorIndex: 0,
       isSc: false,
       isGwc: false,
-      ab: false,
-      boxContent: "",
+      cbox: false,
     };
   },
   filters: {
@@ -137,6 +139,32 @@ export default {
     },
   },
   methods: {
+    sdCbox(text) {
+      if (text) {
+        let data = {
+          username: this.$store.state.user.name,
+          useravatar: this.$store.state.user.avatar,
+          usercomment: text,
+          createtime: new Date(),
+        };
+        this.item.comments.push(data);
+        addComments({
+          id: this.item._id,
+          data,
+        }).then((data) => {
+          this.box("添加成功");
+        });
+      }
+      this.cbox = false;
+    },
+    goPl() {
+      //点击评论按钮
+      if (this.$store.state.user) {
+        this.cbox = true;
+      } else {
+        this.$router.push("/login");
+      }
+    },
     scar() {
       //加入购物车
       if (this.$store.state.user) {
@@ -165,14 +193,32 @@ export default {
     },
     goBuy() {
       //立即购买
-      this.box("购买成功");
-    },
-    box(value) {
-      this.boxContent = value;
-      this.ab = true;
-      setTimeout(() => {
-        this.ab = false;
-      }, 1400);
+      if (this.$store.state.user) {
+        var obj = {
+          name: this.item.name,
+          price: this.item.price,
+          goodsid: this.item._id,
+          color: this.item.parameter[1].value[
+            this.$refs.MainGoodsDetail.isSelect
+          ].name,
+          size: this.item.parameter[0].value[
+            this.$refs.MainGoodsDetail.sizeActivity
+          ],
+          img: this.item.parameter[1].value[this.$refs.MainGoodsDetail.isSelect]
+            .img[0],
+          num: 1,
+        };
+        buyNow({
+          olist: [obj],
+          userid: this.$store.state.user._id,
+          tprice: this.item.price,
+        }).then((data) => {
+          this.$store.state.user.Order.push(data);
+          this.box("购买成功");
+        });
+      } else {
+        this.$router.push("/login");
+      }
     },
     isSpCart() {
       this.isGwc = true;
@@ -185,7 +231,7 @@ export default {
       if (this.$store.state.user) {
         if (this.isSc) {
           var obj = {
-            id: this.item._id,
+            goodsid: this.item._id,
             color: this.item.parameter[1].value[
               this.$refs.MainGoodsDetail.isSelect
             ].name,
@@ -197,17 +243,12 @@ export default {
           this.box("取消收藏");
           this.goods.favorites--;
           this.$store.commit("unFavorite", obj);
-          unFavorite(
-            this.$store.state.user._id,
-            obj,
-            this.item._id,
-            this.goods.favorites
-          );
+          unFavorite(this.$store.state.user._id, obj, this.item._id);
         } else {
           var obj = {
             name: this.item.name,
             price: this.item.price,
-            id: this.item._id,
+            goodsid: this.item._id,
             color: this.item.parameter[1].value[
               this.$refs.MainGoodsDetail.isSelect
             ].name,
@@ -217,17 +258,13 @@ export default {
             img: this.item.parameter[1].value[
               this.$refs.MainGoodsDetail.isSelect
             ].img[0],
+            favorites: this.item.favorites,
           };
           this.$store.commit("addFavorites", obj);
           this.isFavorite(true);
           this.box("收藏成功");
           this.goods.favorites++;
-          addFavorites(
-            this.$store.state.user._id,
-            obj,
-            this.item._id,
-            this.goods.favorites
-          );
+          addFavorites(this.$store.state.user._id, obj, this.item._id);
         }
       } else {
         this.$router.push("/login");
@@ -286,23 +323,24 @@ export default {
   },
   watch: {
     $route(to, from) {
-      getGoodsDetail(to.query.id).then((data) => {
-        this.item = data;
-        this.goods = new Goods(data);
-        getRecommendList(data.recommend).then((data1) => {
-          this.recommendList = data1;
-        });
-      });
+      this.$router.go(0);
+      // getGoodsDetail(to.query.id).then((data) => {
+      //   this.item = data;
+      //   this.goods = new Goods(data);
+      //   getRecommendList(data.recommend).then((data1) => {
+      //     this.recommendList = data1;
+      //   });
+      // });
     },
   },
   components: {
     MainBottomBar,
     MainGoodsList2,
     MainGoodsDetail,
-    AlertBox,
     TopBar,
     Swiper,
     Scroll,
+    Cbox,
   },
 };
 </script>

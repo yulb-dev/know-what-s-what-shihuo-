@@ -22,16 +22,15 @@ export default {
 }
 .v-enter-active,
 .v-leave-active {
-  //   opacity: 1;
   transition: all 0.3s;
 }
 .alert-box {
   background-color: rgb(150, 150, 150);
   width: 100px;
-  position: absolute;
+  position: fixed;
   z-index: 999;
   left: 50%;
-  bottom: 70px;
+  bottom: 120px;
   transform: translateX(-50%);
   p {
     text-align: center;

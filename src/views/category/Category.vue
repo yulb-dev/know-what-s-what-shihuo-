@@ -4,7 +4,7 @@
       <div slot="center" class="center">
         <i class="iconfont icon-search"></i>
         <i class="iconfont icon-xiangji1"></i>
-        <input type="text" placeholder="搜索全网正品好价" />
+        <input type="text" placeholder="搜索全网正品好价" @keydown.enter="search" v-model="char" />
       </div>
     </topbar>
     <div class="class-box" ref="classBox">
@@ -22,9 +22,18 @@ export default {
   data() {
     return {
       menuName: "",
+      char: "",
     };
   },
   methods: {
+    search() {
+      this.char = this.char.replace(/\s+/g, "");
+      if (this.char != "") {
+        this.$router.push({ path: "/search", query: { text: this.char } });
+      } else {
+        this.$router.push({ path: "/search", query: { text: "篮球鞋" } });
+      }
+    },
     changeAMenu(menuName) {
       this.menuName = menuName;
     },
@@ -41,7 +50,6 @@ export default {
 </script>
 <style lang="less" scope>
 .top-bar {
-  // border-bottom: none;
   background-color: #fff;
 }
 .class-box {

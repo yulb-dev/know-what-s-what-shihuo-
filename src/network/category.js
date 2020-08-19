@@ -17,3 +17,7 @@ export function firstClass() {
 export function Secondary(menuName) {
     return request({ url: '/Secondary', params: { menuName } })
 }
+
+export function exit() {
+    return request('/exit')
+}

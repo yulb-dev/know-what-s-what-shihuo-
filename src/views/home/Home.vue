@@ -3,7 +3,7 @@
     <main-nav-bar>
       <div slot="left">
         <i class="iconfont icon-search"></i>
-        <input type="text" placeholder="裂变6" />
+        <input type="text" placeholder="裂变6" @keydown.enter="search" v-model="char" />
       </div>
       <div slot="right">
         <i class="iconfont icon-xiangji1"></i>
@@ -40,6 +40,7 @@ export default {
   mixins: [backTop],
   data() {
     return {
+      char: "",
       saveY: 0,
       swiperItem: null,
       infoIsShow: false,
@@ -70,6 +71,14 @@ export default {
     debounce(this.$bus, this.$refs.scroll.scroll);
   },
   methods: {
+    search() {
+      this.char = this.char.replace(/\s+/g, "");
+      if (this.char != "") {
+        this.$router.push({ path: "/search", query: { text: this.char } });
+      } else {
+        this.$router.push({ path: "/search", query: { text: "篮球鞋" } });
+      }
+    },
     shutInfo() {
       this.infoIsShow = false;
     },
