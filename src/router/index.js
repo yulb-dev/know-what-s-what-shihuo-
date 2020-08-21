@@ -18,7 +18,7 @@ const settingsPage = () => import('../views/settingsPage/settingsPage.vue')
 import axios from 'axios'
 
 const init = axios.create({
-    baseURL: 'http://127.0.0.1:6060/home',
+    baseURL: 'http://47.105.222.69:6060/home',
     timeout: 1000,
     withCredentials: true   //设置此项  会携带跨域cookie
 });
@@ -97,7 +97,7 @@ const routes = [
 
 const router = new VueRouter({
     routes,
-    mode: 'history'
+    mode: 'hash'
 })
 
 router.beforeEach((to, from, next) => {

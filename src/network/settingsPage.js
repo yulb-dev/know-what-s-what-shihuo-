@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 const getfile = axios.create({
-    baseURL: 'http://127.0.0.1:6060/settingsPage',
-    timeout: 1000,
+    baseURL: 'http://47.105.222.69:6060/settingsPage',
+    // timeout: 1000,
     headers: { 'Content-Type': 'multipart/form-data' },
 })
 
@@ -19,5 +19,5 @@ export function getf(data) {
     })
 }
 export function cname(id, name) {
-    return axios.post('http://127.0.0.1:6060/settingsPage/cname', { id, name })
+    return axios.post('http://47.105.222.69:6060/settingsPage/cname', { id, name })
 }

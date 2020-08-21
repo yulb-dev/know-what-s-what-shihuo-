@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 const request = axios.create({
-    baseURL: 'http://127.0.0.1:6060/recommend',
-    timeout: 1000,
+    baseURL: 'http://47.105.222.69:6060/recommend',
+    timeout: 5000,
     withCredentials: true   //设置此项  会携带跨域cookie
 });
 

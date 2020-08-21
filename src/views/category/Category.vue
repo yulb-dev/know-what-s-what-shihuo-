@@ -1,6 +1,6 @@
 <template>
   <div class="category">
-    <topbar>
+    <topbar ref="topbar">
       <div slot="center" class="center">
         <i class="iconfont icon-search"></i>
         <i class="iconfont icon-xiangji1"></i>
@@ -39,7 +39,8 @@ export default {
     },
   },
   mounted() {
-    this.$refs.classBox.style.height = window.screen.availHeight - 60 + "px";
+    this.$refs.classBox.style.height =
+      window.screen.availHeight - this.$refs.topbar.$el.offsetHeight + "px";
   },
   components: {
     MainSecondaryMenu,

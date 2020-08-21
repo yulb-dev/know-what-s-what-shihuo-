@@ -2,7 +2,7 @@
   <div class="activity-box">
     <h4>热门活动</h4>
     <activity>
-      <activity-item v-for="(item, index) in activityList" :key="index" :ahref='item.ahref'>
+      <activity-item v-for="(item, index) in activityList" :key="index" :ahref="item.ahref">
         <img :src="item.imgurl" slot="img" width="100%" height="70px" />
         <span slot="p1">{{item.p1}}</span>
         <span slot="p2">{{item.p2}}</span>

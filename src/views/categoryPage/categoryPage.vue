@@ -44,8 +44,8 @@ export default {
     },
     imgUp() {
       this.cnum++;
-      if (this.cnum == this.goodsList.length) console.log("ok");
-      this.$refs.scroll.scroll.refresh();
+      if (this.cnum == this.goodsList.length)
+        this.$refs.scroll.scroll.refresh();
     },
   },
   created() {

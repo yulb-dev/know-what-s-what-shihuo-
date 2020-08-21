@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const request = axios.create({
-    baseURL: 'http://127.0.0.1:6060/category',
+    baseURL: 'http://47.105.222.69:6060/category',
     timeout: 1000,
     withCredentials: true   //设置此项  会携带跨域cookie
 });

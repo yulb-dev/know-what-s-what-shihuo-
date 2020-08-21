@@ -12,6 +12,7 @@ export default {};
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  background-color: #fff;
   //   padding-bottom: 49px;
 }
 </style>

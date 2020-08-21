@@ -58,7 +58,7 @@ export default {
   width: 24%;
   height: 100%;
   border-right: 1.3px solid #e6e6e6;
-  z-index: 999;
+  // z-index: 999;
   ul {
     height: 100%;
     overflow: hidden;

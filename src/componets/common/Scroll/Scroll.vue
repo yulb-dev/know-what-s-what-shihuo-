@@ -58,6 +58,7 @@ export default {
   width: 100%;
   .content {
     width: 100%;
+    padding-top: 26px;
   }
 }
 </style>
