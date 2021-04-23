@@ -1,13 +1,8 @@
-import axios from 'axios'
-
-// //处理响应拦截
-// axios.interceptors.response.use(res => {
-//     return res.data
-// })
+import { favorites } from "./index";
 
 export function buyNow(item) {
-    return axios.post('http://47.105.222.69:6060/favorites/buyNow', { item })
+    return favorites.post('/buyNow', { item })
 }
 export function getSa(name, id) {
-    return axios.post('http://47.105.222.69:6060/favorites/getSa', { name, id })
+    return favorites.post('/getSa', { name, id })
 }

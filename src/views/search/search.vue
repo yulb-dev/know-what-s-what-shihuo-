@@ -6,7 +6,7 @@
       </div>
     </top-bar>
     <scroll ref="scroll" :hideShowBackTop="true" @goTop="goTop">
-      <div class="ts" v-if="goodsList.length!=0">为您搜索到以下商品:</div>
+      <div class="ts" v-if="goodsList.length != 0">为您搜索到以下商品:</div>
       <div class="ts" v-else>抱歉，没有找到</div>
       <main-goods-list2 :goodsList="goodsList" @imgUp="imgUp" />
     </scroll>
@@ -36,7 +36,7 @@ export default {
     },
   },
   created() {
-    getGoods(this.$route.query.text).then((data) => {
+    getGoods(this.$route.query.text).then(({ data }) => {
       this.goodsList = data;
     });
   },

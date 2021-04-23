@@ -4,14 +4,14 @@
       <div slot="left" @click="$router.go(-1)">
         <img src="../../assets/img/icon/head_back.png" width="43px" />
       </div>
-      <div slot="center">{{$route.query.path}}</div>
+      <div slot="center">{{ $route.query.path }}</div>
       <div slot="right"></div>
     </top-bar>
     <div class="item-list">
       <ul>
         <li v-for="(item1, index) in item" :key="index" @click="change(item1)">
-          <img :src="item1.img" :class="{isSelect:name == item1.name}" />
-          <p>{{item1.name}}</p>
+          <img :src="item1.img" :class="{ isSelect: name == item1.name }" />
+          <p>{{ item1.name }}</p>
         </li>
       </ul>
     </div>
@@ -50,14 +50,14 @@ export default {
   },
   created() {
     this.name = this.$route.query.name;
-    getitem(this.$route.query).then((data) => {
+    getitem(this.$route.query).then(({ data }) => {
       this.item = data;
     });
   },
   watch: {
     name(value) {
-      getGoods(value).then((data1) => {
-        this.goodsList = data1;
+      getGoods(value).then(({ data }) => {
+        this.goodsList = data;
       });
     },
   },

@@ -4,7 +4,9 @@
       <div slot="left" @click="$router.go(-1)">
         <img src="../../assets/img/icon/head_back.png" width="43px" />
       </div>
-      <div slot="center">{{$route.query.title1}} &bull; {{$route.query.title2}}</div>
+      <div slot="center">
+        {{ $route.query.title1 }} &bull; {{ $route.query.title2 }}
+      </div>
       <div slot="right"></div>
     </top-bar>
     <scroll ref="scroll" :hideShowBackTop="true" @goTop="goTop">
@@ -36,7 +38,7 @@ export default {
     },
   },
   created() {
-    getSa(this.$route.query.title1, this.$route.query.id).then((data) => {
+    getSa(this.$route.query.title1, this.$route.query.id).then(({ data }) => {
       this.itemList = data;
     });
   },

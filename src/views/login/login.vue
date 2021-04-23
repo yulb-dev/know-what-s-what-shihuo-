@@ -1,14 +1,20 @@
 <template>
   <div ref="login" class="login">
     <div class="goback">
-      <img src="../../assets/img/icon/head_back.png" width="43px" @click="goBack" />
+      <img
+        src="../../assets/img/icon/head_back.png"
+        width="43px"
+        @click="goBack"
+      />
     </div>
     <div class="form">
       <input type="text" v-model="username" placeholder="用户名" />
       <span v-if="namec">4到16位(字母，数字，下划线，减号)</span>
       <input type="password" v-model="password" placeholder="请输入密码" />
-      <span v-if="passwordc">最小6位,至少1个大写字母、小写字母、数字、特殊字符</span>
-      <span v-if="dlc">{{cwts}}</span>
+      <span v-if="passwordc"
+        >最小6位,至少1个大写字母、小写字母、数字、特殊字符</span
+      >
+      <span v-if="dlc">{{ cwts }}</span>
       <div v-if="isdl" @click="login">立即登录</div>
       <div v-else @click="registered">注册</div>
       <p v-if="isdl" @click="isdl = false">立即注册</p>
@@ -17,7 +23,7 @@
   </div>
 </template>
 <script>
-import { islogin, isregistered, addScarts } from "../../network/login";
+import { islogin, isregistered } from "../../network/login";
 export default {
   name: "login",
   data() {

@@ -15,16 +15,10 @@ const Search = () => import('../views/search/search.vue')
 const CatePage = () => import('../views/categoryPage/categoryPage.vue')
 const settingsPage = () => import('../views/settingsPage/settingsPage.vue')
 
-import axios from 'axios'
-
-const init = axios.create({
-    baseURL: 'http://47.105.222.69:6060/home',
-    timeout: 1000,
-    withCredentials: true   //设置此项  会携带跨域cookie
-});
+import { routerReq } from '../network/index'
 
 // 处理响应拦截
-init.interceptors.response.use(res => {
+routerReq.interceptors.response.use(res => {
     return res.data
 })
 
@@ -104,7 +98,7 @@ router.beforeEach((to, from, next) => {
     if (store.state.user)
         next()
     else {
-        init().then(({ data, data1, data2 }) => {
+        routerReq().then(({ data, data1, data2 }) => {
             if (data) {
                 data.shoppingCart = data1;
                 data.Order = data2

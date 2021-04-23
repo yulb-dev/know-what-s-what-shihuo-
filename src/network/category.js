@@ -1,23 +1,17 @@
-import axios from 'axios'
-
-const request = axios.create({
-    baseURL: 'http://47.105.222.69:6060/category',
-    timeout: 1000,
-    withCredentials: true   //设置此项  会携带跨域cookie
-});
+import { category } from './index'
 
 // 处理响应拦截
-request.interceptors.response.use(res => {
+category.interceptors.response.use(res => {
     return res.data
 })
 
 export function firstClass() {
-    return request('/')
+    return category('/')
 }
 export function Secondary(menuName) {
-    return request({ url: '/Secondary', params: { menuName } })
+    return category({ url: '/Secondary', params: { menuName } })
 }
 
 export function exit() {
-    return request('/exit')
+    return category('/exit')
 }

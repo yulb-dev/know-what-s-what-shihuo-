@@ -1,5 +1,6 @@
-import axios from 'axios'
+// import axios from 'axios'
+import { search } from './index'
 
 export function getGoods(text) {
-    return axios.get('http://47.105.222.69:6060/search/getGoods', { params: { text } })
+    return search.get('/getGoods', { params: { text } })
 }

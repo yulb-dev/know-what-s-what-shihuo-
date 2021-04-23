@@ -6,7 +6,11 @@
       </div>
       <div slot="center">我的收藏夹</div>
       <div slot="right">
-        <img src="../../assets/img/icon/head_list.png" width="43px" @click="sBox" />
+        <img
+          src="../../assets/img/icon/head_list.png"
+          width="43px"
+          @click="sBox"
+        />
         <div class="box" v-if="isBox">
           <ul>
             <li @click="$router.replace('/home')">
@@ -34,12 +38,12 @@
         >
           <img :src="item.img" />
           <div class="inm">
-            <p>{{item.name}}</p>
-            <p>颜色：{{item.color}}</p>
-            <p>尺码：{{item.size}}</p>
+            <p>{{ item.name }}</p>
+            <p>颜色：{{ item.color }}</p>
+            <p>尺码：{{ item.size }}</p>
             <p>
               ￥
-              <span>{{item.price}}</span>
+              <span>{{ item.price }}</span>
             </p>
           </div>
           <div class="btn">

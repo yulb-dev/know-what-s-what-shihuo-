@@ -3,22 +3,40 @@
     <main-nav-bar>
       <div slot="left">
         <i class="iconfont icon-search"></i>
-        <input type="text" placeholder="裂变6" @keydown.enter="search" v-model="char" />
+        <input
+          type="text"
+          placeholder="裂变6"
+          @keydown.enter="search"
+          v-model="char"
+        />
       </div>
       <div slot="right">
         <i class="iconfont icon-xiangji1"></i>
         <p>拍照搜</p>
       </div>
     </main-nav-bar>
-    <scroll ref="scroll" :hideShowBackTop="true" @goTop="goTop" @pullingUp="pullingUp">
-      <swiper2 :imglist="imglist" @ctoItemDetails="ctoItemDetails" ref="swiper" />
+    <scroll
+      ref="scroll"
+      :hideShowBackTop="true"
+      @goTop="goTop"
+      @pullingUp="pullingUp"
+    >
+      <swiper2
+        :imglist="imglist"
+        @ctoItemDetails="ctoItemDetails"
+        ref="swiper"
+      />
       <main-recomm :recoImgList="recoImgList" />
       <main-activity />
       <main-switch @cswitch="cswitch" />
       <main-goods-list :goodsList="this.goods[sle].list" />
     </scroll>
     <back-top @click.native="backlick" v-show="isShow" />
-    <main-info v-show="infoIsShow" :swiperItem="swiperItem" @shutInfo="shutInfo"></main-info>
+    <main-info
+      v-show="infoIsShow"
+      :swiperItem="swiperItem"
+      @shutInfo="shutInfo"
+    ></main-info>
   </div>
 </template>
 <script>
@@ -27,12 +45,10 @@ import MainNavBar from "../../componets/common/navbar/Navbar";
 import MainRecomm from "../../componets/content/MainRecomm/MainRecomm";
 import MainActivity from "../../componets/content/MainActivity/MainActivity";
 import MainGoodsList from "../../componets/content/MainGoodsList/MainGoodsList";
-
 import MainInfo from "../../componets/content/MainInfo/MainInfo";
 import Scroll from "../../componets/common/Scroll/Scroll";
 import swiper2 from "../../componets/common/swiper/swiper2";
 import Swiper from "../../componets/common/swiper/Swiper";
-// import Activity from "../../componets/common/activity/activity";
 import { swiperreq, recommreq, getPopularList } from "../../network/homereq";
 import debounce from "../../common/debounce";
 import { backTop } from "../../common/mixin";
