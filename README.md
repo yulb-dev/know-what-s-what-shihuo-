@@ -12,7 +12,7 @@ vue2 + vuex + vue-router + vue-cli + ES6 + axios + less + flex
 
 ## 项目运行
 运行此项目之前，需要先运行后台node项目，提供接口功能：
-[点击进入接口地址]<https://github.com/yulb-dev/supermall-interface>
+[点击进入接口地址](https://github.com/yulb-dev/supermall-interface)
 ```
 git clone https://github.com/yulb-dev/supermall.git  
 
