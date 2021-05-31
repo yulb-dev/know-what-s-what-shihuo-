@@ -21,7 +21,7 @@ cd supermall
 
 npm install
 
-npm run dev
+npm run serve
 ```
 ## 关于接口数据
 项目接口地址：<https://github.com/yulb-dev/supermall-interface>
